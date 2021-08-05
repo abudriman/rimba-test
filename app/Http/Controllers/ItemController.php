@@ -26,8 +26,13 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'foto_barang' => 'required|image|max:2048',
+        ]);
+
         $item = new Item;
         
+        //teteup pake request, validasinya nanti client side aja ya
         $item->nama = $request->nama;
         $item->unit = $request->unit;
         $item->stok = $request->stok;

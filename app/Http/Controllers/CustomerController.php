@@ -28,8 +28,12 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'foto_ktp' => 'required|image|max:2048',
+        ]);
         $customer = new Customer;
 
+        //teteup pake request, validasinya nanti client side aja ya
         $customer->nama = $request->nama;
         $customer->kontak = $request->kontak;
         $customer->email = $request->email;
