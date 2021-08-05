@@ -20,7 +20,7 @@ class CreateItemsTable extends Migration
             $table->string('unit');
             $table->bigInteger('stok');
             $table->bigInteger('harga');
-            $table->binary('foto_barang');
+            $table->string('foto_barang');
         });
     }
     // id

@@ -19,8 +19,8 @@ class CreateSalesTable extends Migration
             $table->timestamps();
             //multiple item dalam satu transaksi memiliki kode_transaksi yang sama, jadi dibikin ga unique()
             $table->string('kode_transaksi');
-            $table->foreignId('customer_id')->constrained();
-            $table->foreignId('item_id')->constrained();
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('item_id')->constrained()->onDelete('cascade');
             $table->bigInteger('qty');
             $table->bigInteger('total_diskon');
             $table->bigInteger('total_harga');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
@@ -13,17 +15,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+               
+        // return csrf_token(); //for postman
+        return json_encode(Customer::all());
     }
 
     /**
@@ -34,31 +28,21 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = new Customer;
+
+        $customer->nama = $request->nama;
+        $customer->kontak = $request->kontak;
+        $customer->email = $request->email;
+        $customer->alamat = $request->alamat;
+        $customer->diskon = $request->diskon;
+        $customer->tipe_diskon = $request->tipe_diskon;
+        $file = $request->file('foto_ktp')->store('foto_ktp');
+        $customer->foto_ktp = $file;
+        $customer->save();
+        return response(json_encode($customer), 201)->header('Content-type', 'application/json');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+       
     /**
      * Update the specified resource in storage.
      *
@@ -68,7 +52,22 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $customer = Customer::find($id);
+        if($request->nama)  $customer->nama = $request->nama;
+        if($request->kontak)  $customer->kontak = $request->kontak;
+        if($request->email)  $customer->email = $request->email;
+        if($request->alamat)  $customer->alamat = $request->alamat;
+        if($request->diskon)  $customer->diskon = $request->diskon;
+        if($request->tipe_diskon)  $customer->tipe_diskon = $request->tipe_diskon;
+        
+        if($request->foto_ktp){
+            Storage::delete($customer->foto_ktp);
+            $file = $request->file('foto_ktp')->store('foto_ktp');
+            $customer->foto_ktp = $file;
+        }
+
+        $customer->save();
+        return response(json_encode($customer), 200)->header('Content-Type', 'application/json');
     }
 
     /**
@@ -79,6 +78,9 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $customer = Customer::find($id);
+
+        $customer->delete();
+        return response(200);
     }
 }
