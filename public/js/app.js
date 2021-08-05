@@ -2008,6 +2008,14 @@ __webpack_require__.r(__webpack_exports__);
     previewFiles: function previewFiles() {
       this.form.item.foto_barang = this.$refs.fotoBarang.files[0];
     },
+    clearItem: function clearItem() {
+      this.modeTambah = '';
+      this.form.item.nama = '';
+      this.form.item.stok = '';
+      this.form.item.unit = '';
+      this.form.item.harga = '';
+      this.form.item.foto_barang = '';
+    },
     createItem: function createItem() {
       var _this2 = this;
 
@@ -2024,13 +2032,14 @@ __webpack_require__.r(__webpack_exports__);
         _this2.tabelItem.push(response.data);
       });
     },
-    clearItem: function clearItem() {
-      this.modeTambah = '';
-      this.form.item.nama = '';
-      this.form.item.stok = '';
-      this.form.item.unit = '';
-      this.form.item.harga = '';
-      this.form.item.foto_barang = '';
+    deleteItem: function deleteItem(id, index) {
+      var _this3 = this;
+
+      axios["delete"]("/item/".concat(id)).then(function (response) {
+        if (response.status == 200) {
+          _this3.tabelItem.splice(index, 1);
+        }
+      });
     }
   }
 }); // tambahPendidikan: function() {
@@ -37965,7 +37974,7 @@ var render = function() {
                           on: {
                             click: function($event) {
                               $event.preventDefault()
-                              return _vm.deleteKaryawan(row.nomor_ktp, index)
+                              return _vm.deleteItem(row.id, index)
                             }
                           }
                         },

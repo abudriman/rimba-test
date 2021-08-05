@@ -83,7 +83,7 @@
                                 <Button
                                     class="btn btn-danger btn-sm"
                                     @click.prevent="
-                                        deleteKaryawan(row.nomor_ktp, index)
+                                        deleteItem(row.id, index)
                                     "
                                     >Hapus</Button
                                 >
@@ -159,6 +159,14 @@ export default {
         previewFiles: function(){
             this.form.item.foto_barang=this.$refs.fotoBarang.files[0]
         },
+        clearItem(){
+            this.modeTambah='';
+            this.form.item.nama='';
+            this.form.item.stok='';
+            this.form.item.unit='';
+            this.form.item.harga='';
+            this.form.item.foto_barang='';
+        },
         createItem: function(){
             let formdata = new FormData()
             formdata.append('nama', this.form.item.nama)
@@ -173,14 +181,14 @@ export default {
 
             })
         },
-        clearItem(){
-            this.modeTambah='';
-            this.form.item.nama='';
-            this.form.item.stok='';
-            this.form.item.unit='';
-            this.form.item.harga='';
-            this.form.item.foto_barang='';
+        deleteItem:function(id, index){
+            axios.delete(`/item/${id}`).then(response => {
+                if(response.status == 200){
+                    this.tabelItem.splice(index,1);
+                }
+            })
         }
+        
     }
 };
 // tambahPendidikan: function() {
