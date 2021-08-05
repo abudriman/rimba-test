@@ -17,7 +17,8 @@ class CreateSalesTable extends Migration
             $table->id();
             //tanggal_transaksi pake created_at
             $table->timestamps();
-            $table->string('kode_transaksi')->unique();
+            //multiple item dalam satu transaksi memiliki kode_transaksi yang sama, jadi dibikin ga unique()
+            $table->string('kode_transaksi');
             $table->foreignId('customer_id')->constrained();
             $table->foreignId('item_id')->constrained();
             $table->bigInteger('qty');

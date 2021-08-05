@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\KaryawanController;
-use App\Http\Controllers\PendidikanController;
-use App\Http\Controllers\ExperienceController;
-use App\Http\Controllers\FormController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ItemController;
+use App\Models\Sale;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +20,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::resource('karyawan', KaryawanController::class);
-Route::resource('pendidikan', PendidikanController::class);
-Route::resource('experience', ExperienceController::class);
-Route::post('/form-submit', [FormController::class, 'submit']);
+Route::resource('customer', CustomerController::class);
+Route::resource('item', ItemController::class);
+Route::resource('sale', Sale::class);
