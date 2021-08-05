@@ -1969,6 +1969,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     console.log("Component mounted.");
@@ -2004,18 +2005,32 @@ __webpack_require__.r(__webpack_exports__);
       console.log(gambar);
       this.lihat = gambar;
     },
-    previewFiles: function previewFiles(event) {
-      console.log(event.target.files);
-      this.foto_barang = event.target.files;
+    previewFiles: function previewFiles() {
+      this.form.item.foto_barang = this.$refs.fotoBarang.files[0];
     },
     createItem: function createItem() {
-      formdata = new FormData();
+      var _this2 = this;
+
+      var formdata = new FormData();
       formdata.append('nama', this.form.item.nama);
       formdata.append('unit', this.form.item.unit);
       formdata.append('stok', this.form.item.stok);
       formdata.append('harga', this.form.item.harga);
       formdata.append('foto_barang', this.form.item.foto_barang);
       console.log(formdata);
+      axios.post("/item", formdata).then(function (response) {
+        _this2.clearItem();
+
+        _this2.tabelItem.push(response.data);
+      });
+    },
+    clearItem: function clearItem() {
+      this.modeTambah = '';
+      this.form.item.nama = '';
+      this.form.item.stok = '';
+      this.form.item.unit = '';
+      this.form.item.harga = '';
+      this.form.item.foto_barang = '';
     }
   }
 }); // tambahPendidikan: function() {
@@ -37819,7 +37834,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", required: "" },
+                        attrs: { type: "number", required: "" },
                         domProps: { value: _vm.form.item.stok },
                         on: {
                           input: function($event) {
@@ -37866,6 +37881,7 @@ var render = function() {
                   _c("td", [
                     _c("div", { staticClass: "custom-file" }, [
                       _c("input", {
+                        ref: "fotoBarang",
                         staticClass: "custom-file-input",
                         attrs: { type: "file" },
                         on: { change: _vm.previewFiles }

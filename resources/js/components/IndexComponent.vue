@@ -40,7 +40,7 @@
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input v-model="form.item.stok" class="form-control" type="text"  required/>
+                                    <input v-model="form.item.stok" class="form-control" type="number"  required/>
                                 </div>
                             </td>
                             <td>
@@ -54,6 +54,7 @@
                                         type="file"
                                         class="custom-file-input"
                                         @change="previewFiles"
+                                        ref="fotoBarang"
                                     />
                                     <label
                                         class="custom-file-label"
@@ -155,18 +156,30 @@ export default {
             console.log(gambar);
             this.lihat = gambar;            
         },
-        previewFiles: function(event){
-            console.log(event.target.files)
-            this.foto_barang=event.target.files
+        previewFiles: function(){
+            this.form.item.foto_barang=this.$refs.fotoBarang.files[0]
         },
         createItem: function(){
-            formdata = new FormData()
+            let formdata = new FormData()
             formdata.append('nama', this.form.item.nama)
             formdata.append('unit', this.form.item.unit)
             formdata.append('stok', this.form.item.stok)
             formdata.append('harga', this.form.item.harga)
             formdata.append('foto_barang', this.form.item.foto_barang)
             console.log(formdata)
+            axios.post("/item", formdata).then(response => {
+                this.clearItem();
+                this.tabelItem.push(response.data);
+
+            })
+        },
+        clearItem(){
+            this.modeTambah='';
+            this.form.item.nama='';
+            this.form.item.stok='';
+            this.form.item.unit='';
+            this.form.item.harga='';
+            this.form.item.foto_barang='';
         }
     }
 };
