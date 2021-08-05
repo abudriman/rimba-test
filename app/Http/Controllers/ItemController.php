@@ -15,6 +15,7 @@ class ItemController extends Controller
      */
     public function index()
     {
+        // return csrf_token(); //for postman
         return json_encode(Item::all());
     }
 
@@ -37,7 +38,7 @@ class ItemController extends Controller
         $item->unit = $request->unit;
         $item->stok = $request->stok;
         $item->harga = $request->harga;
-        $file = $request->file('foto_barang')->store('foto_barang');
+        $file = $request->file('foto_barang')->store('public/foto_barang');
         $item->foto_barang = $file;
         $item->save();
         return response(json_encode($item), 201)->header('Content-type', 'application/json');
@@ -60,7 +61,7 @@ class ItemController extends Controller
 
         if($request->foto_barang){
             Storage::delete($item->foto_barang);
-            $file = $request->file('foto_barang')->store('foto_barang');
+            $file = $request->file('foto_barang')->store('public/foto_barang');
             $item->foto_barang = $file;
         }
 

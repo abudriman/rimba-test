@@ -40,7 +40,7 @@ class CustomerController extends Controller
         $customer->alamat = $request->alamat;
         $customer->diskon = $request->diskon;
         $customer->tipe_diskon = $request->tipe_diskon;
-        $file = $request->file('foto_ktp')->store('foto_ktp');
+        $file = $request->file('foto_ktp')->store('public/foto_ktp');
         $customer->foto_ktp = $file;
         $customer->save();
         return response(json_encode($customer), 201)->header('Content-type', 'application/json');
@@ -66,7 +66,7 @@ class CustomerController extends Controller
         
         if($request->foto_ktp){
             Storage::delete($customer->foto_ktp);
-            $file = $request->file('foto_ktp')->store('foto_ktp');
+            $file = $request->file('foto_ktp')->store('public/foto_ktp');
             $customer->foto_ktp = $file;
         }
 
