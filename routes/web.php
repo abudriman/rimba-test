@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\SaleController;
 use App\Models\Sale;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,4 @@ Route::get('/', function () {
 
 Route::resource('customer', CustomerController::class);
 Route::resource('item', ItemController::class);
-Route::resource('sale', Sale::class);
+Route::resource('sale', SaleController::class);
