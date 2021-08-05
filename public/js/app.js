@@ -37810,7 +37810,12 @@ var render = function() {
             _vm._m(7),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
-              _c("img", { attrs: { src: "/" + _vm.lihat, alt: "foto_barang" } })
+              _c("img", {
+                attrs: {
+                  src: "../storage/" + _vm.lihat.substring(7),
+                  alt: "foto_barang"
+                }
+              })
             ])
           ])
         ])

@@ -109,7 +109,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <img :src="'/'+lihat" alt="foto_barang">
+                        <img :src="'../storage/'+lihat.substring(7,)" alt="foto_barang">
                     </div>
                 </div>
             </div>
