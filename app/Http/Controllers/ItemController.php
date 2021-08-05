@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -13,17 +15,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return json_encode(Item::all());
     }
 
     /**
@@ -34,29 +26,16 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $item = new Item;
+        
+        $item->nama = $request->nama;
+        $item->unit = $request->unit;
+        $item->stok = $request->stok;
+        $item->harga = $request->harga;
+        $file = $request->file('foto_barang')->store('foto_barang');
+        $item->foto_barang = $file;
+        $item->save();
+        return response(json_encode($item), 201)->header('Content-type', 'application/json');
     }
 
     /**
@@ -68,7 +47,20 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Item::find($id);
+        if($request->nama) $item->nama = $request->nama;
+        if($request->unit) $item->unit = $request->unit;
+        if($request->stok) $item->stok = $request->stok;
+        if($request->harga) $item->harga = $request->harga;
+
+        if($request->foto_barang){
+            Storage::delete($item->foto_barang);
+            $file = $request->file('foto_barang')->store('foto_barang');
+            $item->foto_barang = $file;
+        }
+
+        $item->save();
+        return response(json_encode($item), 200)->header('Content-type', 'application/json');
     }
 
     /**
@@ -79,6 +71,10 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Item::find($id);
+
+        $item->delete();
+        return response(200);
+        
     }
 }
