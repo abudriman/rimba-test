@@ -1966,6 +1966,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     console.log("Component mounted.");
@@ -1979,17 +1982,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      name: "",
-      alamat: "",
-      nomor_ktp: "",
-      pendidikan: [],
-      experience: [],
-      modeEdit: false,
-      editIndex: 0,
-      modeDetail: false,
       tabelItem: [],
       modeTambah: "",
-      lihat: ""
+      lihat: "",
+      form: {
+        item: {
+          nama: '',
+          unit: '',
+          stok: '',
+          harga: '',
+          foto_barang: ''
+        }
+      }
     };
   },
   methods: {
@@ -1999,6 +2003,19 @@ __webpack_require__.r(__webpack_exports__);
     lihatGambar: function lihatGambar(gambar) {
       console.log(gambar);
       this.lihat = gambar;
+    },
+    previewFiles: function previewFiles(event) {
+      console.log(event.target.files);
+      this.foto_barang = event.target.files;
+    },
+    createItem: function createItem() {
+      formdata = new FormData();
+      formdata.append('nama', this.form.item.nama);
+      formdata.append('unit', this.form.item.unit);
+      formdata.append('stok', this.form.item.stok);
+      formdata.append('harga', this.form.item.harga);
+      formdata.append('foto_barang', this.form.item.foto_barang);
+      console.log(formdata);
     }
   }
 }); // tambahPendidikan: function() {
@@ -37701,23 +37718,186 @@ var render = function() {
           _c(
             "tbody",
             [
-              _vm.modeTambah == "item"
-                ? _c("tr", [
-                    _c("th"),
+              _c(
+                "tr",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.modeTambah == "item",
+                      expression: "modeTambah == 'item'"
+                    }
+                  ]
+                },
+                [
+                  _c("th"),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.item.nama,
+                            expression: "form.item.nama"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", required: "" },
+                        domProps: { value: _vm.form.item.nama },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form.item, "nama", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.item.unit,
+                              expression: "form.item.unit"
+                            }
+                          ],
+                          staticClass: "custom-select",
+                          attrs: { required: "" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form.item,
+                                "unit",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "pcs" } }, [
+                            _vm._v("pcs")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "kg" } }, [
+                            _vm._v("kg")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.item.stok,
+                            expression: "form.item.stok"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", required: "" },
+                        domProps: { value: _vm.form.item.stok },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form.item, "stok", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.item.harga,
+                            expression: "form.item.harga"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number", required: "" },
+                        domProps: { value: _vm.form.item.harga },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form.item,
+                              "harga",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", { staticClass: "custom-file" }, [
+                      _c("input", {
+                        staticClass: "custom-file-input",
+                        attrs: { type: "file" },
+                        on: { change: _vm.previewFiles }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "custom-file-label",
+                          attrs: { for: "customFile" }
+                        },
+                        [_vm._v("Choose file")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success btn-sm",
+                        on: { click: _vm.createItem }
+                      },
+                      [_vm._v("Simpan")]
+                    ),
                     _vm._v(" "),
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _vm._m(2),
-                    _vm._v(" "),
-                    _vm._m(3),
-                    _vm._v(" "),
-                    _vm._m(4),
-                    _vm._v(" "),
-                    _vm._m(5),
-                    _vm._v(" "),
-                    _vm._m(6)
+                    _c("button", { staticClass: "btn btn-danger btn-sm" }, [
+                      _vm._v("Batal")
+                    ])
                   ])
-                : _vm._e(),
+                ]
+              ),
               _vm._v(" "),
               _vm._l(_vm.tabelItem, function(row, index) {
                 return _c("tr", { key: index }, [
@@ -37807,7 +37987,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog modal-dialog-centered" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(7),
+            _vm._m(1),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
               _c("img", {
@@ -37844,77 +38024,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("aksi")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "custom-file" }, [
-        _c("input", {
-          staticClass: "custom-file-input",
-          attrs: { type: "file", id: "customFile" }
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "custom-file-label", attrs: { for: "customFile" } },
-          [_vm._v("Choose file")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-success btn-sm" }, [
-        _vm._v("Simpan")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-danger btn-sm" }, [_vm._v("Batal")])
     ])
   },
   function() {

@@ -23,26 +23,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="modeTambah == 'item'">
+                        <tr v-show="modeTambah == 'item'">
                             <th></th>
                             <td>
                                 <div class="form-group">
-                                    <input class="form-control" type="text" />
+                                    <input v-model="form.item.nama" class="form-control" type="text" required />
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input class="form-control" type="text" />
+                                    <select class="custom-select" v-model="form.item.unit" required>
+                                        <option value="pcs">pcs</option>
+                                        <option value="kg">kg</option>
+                                    </select>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input class="form-control" type="text" />
+                                    <input v-model="form.item.stok" class="form-control" type="text"  required/>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input class="form-control" type="text" />
+                                    <input v-model="form.item.harga" class="form-control" type="number" required />
                                 </div>
                             </td>
                             <td>
@@ -50,7 +53,7 @@
                                     <input
                                         type="file"
                                         class="custom-file-input"
-                                        id="customFile"
+                                        @change="previewFiles"
                                     />
                                     <label
                                         class="custom-file-label"
@@ -60,7 +63,7 @@
                                 </div>
                             </td>
                             <td>
-                                <button class="btn btn-success btn-sm">Simpan</button>
+                                <button @click="createItem"  class="btn btn-success btn-sm">Simpan</button>
                                 <button class="btn btn-danger btn-sm">Batal</button>
                             </td>
                         </tr>
@@ -129,18 +132,19 @@ export default {
     },
     data() {
         return {
-            name: "",
-            alamat: "",
-            nomor_ktp: "",
-            pendidikan: [],
-            experience: [],
-            modeEdit: false,
-            editIndex: 0,
-            modeDetail: false,
 
             tabelItem: [],
             modeTambah: "",
-            lihat:""
+            lihat:"",
+            form:{
+                item:{
+                    nama:'',
+                    unit:'',
+                    stok:'',
+                    harga:'',
+                    foto_barang:'',
+                }
+            },
         };
     },
     methods: {
@@ -151,6 +155,19 @@ export default {
             console.log(gambar);
             this.lihat = gambar;            
         },
+        previewFiles: function(event){
+            console.log(event.target.files)
+            this.foto_barang=event.target.files
+        },
+        createItem: function(){
+            formdata = new FormData()
+            formdata.append('nama', this.form.item.nama)
+            formdata.append('unit', this.form.item.unit)
+            formdata.append('stok', this.form.item.stok)
+            formdata.append('harga', this.form.item.harga)
+            formdata.append('foto_barang', this.form.item.foto_barang)
+            console.log(formdata)
+        }
     }
 };
 // tambahPendidikan: function() {
